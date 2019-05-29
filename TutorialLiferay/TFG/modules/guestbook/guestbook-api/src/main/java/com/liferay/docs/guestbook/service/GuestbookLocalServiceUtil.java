@@ -61,6 +61,18 @@ public class GuestbookLocalServiceUtil {
 		return getService().addGuestbook(userId, name, serviceContext);
 	}
 
+	public static void crearModeloEntry(
+		java.util.List<com.liferay.docs.guestbook.model.Entry> lista,
+		org.apache.jena.rdf.model.Model p) {
+		getService().crearModeloEntry(lista, p);
+	}
+
+	public static void crearModeloGB(
+		java.util.List<com.liferay.docs.guestbook.model.Guestbook> lista,
+		org.apache.jena.rdf.model.Model model) {
+		getService().crearModeloGB(lista, model);
+	}
+
 	/**
 	* Creates a new guestbook with the primary key. Does not add the guestbook to the database.
 	*
@@ -336,6 +348,18 @@ public class GuestbookLocalServiceUtil {
 		java.io.Serializable primaryKeyObj)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getPersistedModel(primaryKeyObj);
+	}
+
+	public static java.util.List<com.liferay.docs.guestbook.model.Guestbook> mockGuestbook() {
+		return getService().mockGuestbook();
+	}
+
+	public static void mostrar(org.apache.jena.rdf.model.Model p) {
+		getService().mostrar(p);
+	}
+
+	public static String toJSONLD(long groupId) {
+		return getService().toJSONLD(groupId);
 	}
 
 	/**

@@ -1,0 +1,4 @@
+Bundle-Name: guestbook-endpoint
+Bundle-SymbolicName: guestbook.endpoint
+Bundle-Version: 1.0.0
+Liferay-Configuration-Path: /configuration

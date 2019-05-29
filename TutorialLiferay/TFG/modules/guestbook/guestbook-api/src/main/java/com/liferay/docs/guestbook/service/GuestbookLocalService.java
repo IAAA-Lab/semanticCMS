@@ -16,6 +16,7 @@ package com.liferay.docs.guestbook.service;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.docs.guestbook.model.Entry;
 import com.liferay.docs.guestbook.model.Guestbook;
 
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -37,6 +38,8 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
+
+import org.apache.jena.rdf.model.Model;
 
 import java.io.Serializable;
 
@@ -77,6 +80,10 @@ public interface GuestbookLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public Guestbook addGuestbook(long userId, String name,
 		ServiceContext serviceContext) throws PortalException;
+
+	public void crearModeloEntry(List<Entry> lista, Model p);
+
+	public void crearModeloGB(List<Guestbook> lista, Model model);
 
 	/**
 	* Creates a new guestbook with the primary key. Does not add the guestbook to the database.
@@ -300,6 +307,12 @@ public interface GuestbookLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
+
+	public List<Guestbook> mockGuestbook();
+
+	public void mostrar(Model p);
+
+	public String toJSONLD(long groupId);
 
 	/**
 	* Updates the guestbook in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
