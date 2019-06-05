@@ -62,6 +62,13 @@ public class GuestbookLocalServiceUtil {
 	}
 
 	public static void crearModeloEntry(
+		com.liferay.docs.guestbook.model.Entry entrada,
+		org.apache.jena.rdf.model.Model p,
+		org.apache.jena.rdf.model.Model complete) {
+		getService().crearModeloEntry(entrada, p, complete);
+	}
+
+	public static void crearModeloEntry(
 		java.util.List<com.liferay.docs.guestbook.model.Entry> lista,
 		org.apache.jena.rdf.model.Model p) {
 		getService().crearModeloEntry(lista, p);
@@ -203,6 +210,10 @@ public class GuestbookLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
+	public static String entryToJSONLD(long groupId, long entryId) {
+		return getService().entryToJSONLD(groupId, entryId);
+	}
+
 	public static com.liferay.docs.guestbook.model.Guestbook fetchGuestbook(
 		long guestbookId) {
 		return getService().fetchGuestbook(guestbookId);
@@ -218,6 +229,10 @@ public class GuestbookLocalServiceUtil {
 	public static com.liferay.docs.guestbook.model.Guestbook fetchGuestbookByUuidAndGroupId(
 		String uuid, long groupId) {
 		return getService().fetchGuestbookByUuidAndGroupId(uuid, groupId);
+	}
+
+	public static String gbToJSONLD(long groupId, long gb) {
+		return getService().gbToJSONLD(groupId, gb);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
@@ -348,10 +363,6 @@ public class GuestbookLocalServiceUtil {
 		java.io.Serializable primaryKeyObj)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getPersistedModel(primaryKeyObj);
-	}
-
-	public static java.util.List<com.liferay.docs.guestbook.model.Guestbook> mockGuestbook() {
-		return getService().mockGuestbook();
 	}
 
 	public static void mostrar(org.apache.jena.rdf.model.Model p) {

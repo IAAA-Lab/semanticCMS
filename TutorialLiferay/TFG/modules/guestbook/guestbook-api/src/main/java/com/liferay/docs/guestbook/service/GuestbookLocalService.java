@@ -81,6 +81,8 @@ public interface GuestbookLocalService extends BaseLocalService,
 	public Guestbook addGuestbook(long userId, String name,
 		ServiceContext serviceContext) throws PortalException;
 
+	public void crearModeloEntry(Entry entrada, Model p, Model complete);
+
 	public void crearModeloEntry(List<Entry> lista, Model p);
 
 	public void crearModeloGB(List<Guestbook> lista, Model model);
@@ -190,6 +192,8 @@ public interface GuestbookLocalService extends BaseLocalService,
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
 
+	public String entryToJSONLD(long groupId, long entryId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Guestbook fetchGuestbook(long guestbookId);
 
@@ -202,6 +206,8 @@ public interface GuestbookLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Guestbook fetchGuestbookByUuidAndGroupId(String uuid, long groupId);
+
+	public String gbToJSONLD(long groupId, long gb);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
@@ -307,8 +313,6 @@ public interface GuestbookLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
-
-	public List<Guestbook> mockGuestbook();
 
 	public void mostrar(Model p);
 

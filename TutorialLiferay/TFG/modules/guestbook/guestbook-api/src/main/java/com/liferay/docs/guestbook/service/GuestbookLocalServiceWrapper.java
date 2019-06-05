@@ -55,6 +55,14 @@ public class GuestbookLocalServiceWrapper implements GuestbookLocalService,
 
 	@Override
 	public void crearModeloEntry(
+		com.liferay.docs.guestbook.model.Entry entrada,
+		org.apache.jena.rdf.model.Model p,
+		org.apache.jena.rdf.model.Model complete) {
+		_guestbookLocalService.crearModeloEntry(entrada, p, complete);
+	}
+
+	@Override
+	public void crearModeloEntry(
 		java.util.List<com.liferay.docs.guestbook.model.Entry> lista,
 		org.apache.jena.rdf.model.Model p) {
 		_guestbookLocalService.crearModeloEntry(lista, p);
@@ -210,6 +218,11 @@ public class GuestbookLocalServiceWrapper implements GuestbookLocalService,
 	}
 
 	@Override
+	public String entryToJSONLD(long groupId, long entryId) {
+		return _guestbookLocalService.entryToJSONLD(groupId, entryId);
+	}
+
+	@Override
 	public com.liferay.docs.guestbook.model.Guestbook fetchGuestbook(
 		long guestbookId) {
 		return _guestbookLocalService.fetchGuestbook(guestbookId);
@@ -227,6 +240,11 @@ public class GuestbookLocalServiceWrapper implements GuestbookLocalService,
 		String uuid, long groupId) {
 		return _guestbookLocalService.fetchGuestbookByUuidAndGroupId(uuid,
 			groupId);
+	}
+
+	@Override
+	public String gbToJSONLD(long groupId, long gb) {
+		return _guestbookLocalService.gbToJSONLD(groupId, gb);
 	}
 
 	@Override
@@ -372,11 +390,6 @@ public class GuestbookLocalServiceWrapper implements GuestbookLocalService,
 		java.io.Serializable primaryKeyObj)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _guestbookLocalService.getPersistedModel(primaryKeyObj);
-	}
-
-	@Override
-	public java.util.List<com.liferay.docs.guestbook.model.Guestbook> mockGuestbook() {
-		return _guestbookLocalService.mockGuestbook();
 	}
 
 	@Override

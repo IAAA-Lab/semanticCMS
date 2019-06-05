@@ -35,14 +35,22 @@ import com.liferay.portal.kernel.util.PortalUtil;
 /**
  * @author jorge
  */
-@Component(immediate = true, property = { "com.liferay.portlet.display-category=category.social",
-		"com.liferay.portlet.instanceable=false", "com.liferay.portlet.scopeable=true",
-		"javax.portlet.display-name=Guestbook", "javax.portlet.expiration-cache=0",
+@Component(immediate = true, property = {
+		"com.liferay.portlet.display-category=category.social",
+		"com.liferay.portlet.instanceable=false",
+		"com.liferay.portlet.scopeable=true",
+		"javax.portlet.display-name=Guestbook",
+		"javax.portlet.expiration-cache=0",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/guestbookwebportlet/view.jsp",
-		"javax.portlet.resource-bundle=content.Language", "javax.portlet.security-role-ref=power-user,user",
+		"javax.portlet.resource-bundle=content.Language",
+		"javax.portlet.security-role-ref=power-user,user",
 		"javax.portlet.supports.mime-type=text/html",
-		"javax.portlet.name=" + GuestbookPortletKeys.GUESTBOOK, }, service = Portlet.class)
+		
+		"javax.portlet.name=" + GuestbookPortletKeys.Guestbook,
+		"mvc.command.name=/",
+        "mvc.command.name=/guestbooks/view"
+}, service = Portlet.class)
 public class GuestbookPortlet extends MVCPortlet {
 
 	public void addEntry(ActionRequest request, ActionResponse response) throws PortalException {

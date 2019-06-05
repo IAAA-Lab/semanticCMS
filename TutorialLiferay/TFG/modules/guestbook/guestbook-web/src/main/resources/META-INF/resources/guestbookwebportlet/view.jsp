@@ -101,8 +101,7 @@
 
 
 <script type="application/ld+json">
-<% String json=GuestbookLocalServiceUtil.toJSONLD(scopeGroupId);
+<%String json = GuestbookLocalServiceUtil.gbToJSONLD(scopeGroupId, guestbookId);
 
-out.print(json); 
-%>
+			out.print(json);%>
 </script>

@@ -13,12 +13,12 @@
  */
 
 package com.liferay.docs.guestbook.service.impl;
-// @jena-osgi-3.10.0.jar, @httpclient-osgi-4.5.5.jar, @httpcore-osgi-4.4.9.jar, @jsonlod-java-0.12.1.jar, @commons-csv-1.5.jar, @libthrift-0.10.0.jar, @jcl-over-slf4j-1.7.25.jar, @slf4j-api-1.7.25.jar, @commons-lang3-3.4.jar, @org.osgi.core-6.0.0.jar, @jackson-core-2.9.6.jar, @jackson-databind-2.9.6.jar, @commons-io-2.6.jar, @jackson-annotations-2.9.0.jar
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.jena.graph.Node;
@@ -29,12 +29,14 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.util.iterator.ExtendedIterator;
+import org.apache.jena.vocabulary.RDF;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLinkConstants;
 import com.liferay.docs.guestbook.exception.GuestbookNameException;
 import com.liferay.docs.guestbook.model.Entry;
 import com.liferay.docs.guestbook.model.Guestbook;
+import com.liferay.docs.guestbook.service.EntryLocalServiceUtil;
 import com.liferay.docs.guestbook.service.base.GuestbookLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -74,6 +76,7 @@ public class GuestbookLocalServiceImpl extends GuestbookLocalServiceBaseImpl {
 	 * com.liferay.docs.guestbook.service.GuestbookLocalServiceUtil} to access the
 	 * guestbook local service.
 	 */
+	public String URI = "http://localhost:8080/web/guest/home/-";
 
 	@Indexable(type = IndexableType.REINDEX)
 	public Guestbook addGuestbook(long userId, String name, ServiceContext serviceContext) throws PortalException {
@@ -191,7 +194,7 @@ public class GuestbookLocalServiceImpl extends GuestbookLocalServiceBaseImpl {
 			crearModeloEntry(entryPersistence.findByG_G(groupId, iterator.next().getGuestbookId()), modelo);
 		}
 
-		mostrar(modelo);
+		// mostrar(modelo);
 
 		// return "FUTURO JSON-LD";
 
@@ -202,56 +205,67 @@ public class GuestbookLocalServiceImpl extends GuestbookLocalServiceBaseImpl {
 
 	}
 
-	public List<Guestbook> mockGuestbook() {
+	public String gbToJSONLD(long groupId, long gb) {
 
-		long guestbookId = counterLocalService.increment();
+		Model modelo = ModelFactory.createDefaultModel();
 
-		Guestbook guestbook1 = guestbookPersistence.create(guestbookId);
+		List<Guestbook> gbs = new LinkedList<Guestbook>(guestbookPersistence.findByGroupId(groupId));
+		Iterator<Guestbook> guestbook = gbs.iterator();
+		int i = 0;
+		while (guestbook.hasNext()) {
+			long id = guestbook.next().getGuestbookId();
+			if (id != gb) {
+				// gbs.remove(i);
+				gbs.remove(i);
+			}
+			i++;
+		}
+		crearModeloGB(gbs, modelo);
 
-		guestbook1.setGuestbookId(1);
-		guestbook1.setUuid("aaa");
-		guestbook1.setUserId(1);
-		guestbook1.setGroupId(1);
-		guestbook1.setCompanyId(1);
-		guestbook1.setUserName("Jorge Bl");
-		guestbook1.setCreateDate(new Date());
-		guestbook1.setModifiedDate(new Date());
-		guestbook1.setName("guestbook 1");
+		Iterator<Guestbook> iterator = gbs.iterator();
+		while (iterator.hasNext()) {
+			crearModeloEntry(entryPersistence.findByG_G(groupId, iterator.next().getGuestbookId()), modelo);
+		}
 
-		long guestbookId2 = counterLocalService.increment();
+		// mostrar(modelo);
 
-		Guestbook guestbook2 = guestbookPersistence.create(guestbookId2);
+		// return "FUTURO JSON-LD";
 
-		guestbook2.setGuestbookId(2);
-		guestbook2.setUuid("aa");
-		guestbook2.setUserId(2);
-		guestbook2.setGroupId(2);
-		guestbook2.setCompanyId(2);
-		guestbook2.setUserName("Jorge Bl");
-		guestbook2.setCreateDate(new Date());
-		guestbook2.setModifiedDate(new Date());
-		guestbook2.setName("guestbook 2");
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		modelo.write(out, "JSON-LD");
 
-		long guestbookId3 = counterLocalService.increment();
+		return new String(out.toByteArray());
 
-		Guestbook guestbook3 = guestbookPersistence.create(guestbookId3);
+	}
 
-		guestbook3.setGuestbookId(3);
-		guestbook3.setUuid("a");
-		guestbook3.setUserId(3);
-		guestbook3.setGroupId(3);
-		guestbook3.setCompanyId(3);
-		guestbook3.setUserName("Jorge Bl");
-		guestbook3.setCreateDate(new Date());
-		guestbook3.setModifiedDate(new Date());
-		guestbook3.setName("guestbook 3");
+	public String entryToJSONLD(long groupId, long entryId) {
 
-		List<Guestbook> lista = new ArrayList<Guestbook>();
-		lista.add(guestbook1);
-		lista.add(guestbook2);
-		lista.add(guestbook3);
+		Model entrada = ModelFactory.createDefaultModel();
+		
+		Model modelo = ModelFactory.createDefaultModel();
 
-		return lista;
+		List<Guestbook> gbs = guestbookPersistence.findByGroupId(groupId);
+		crearModeloGB(gbs, modelo);
+
+		Iterator<Guestbook> iterator = gbs.iterator();
+		while (iterator.hasNext()) {
+			crearModeloEntry(entryPersistence.findByG_G(groupId, iterator.next().getGuestbookId()), modelo);
+		}
+		
+		Entry entry;
+		try {
+			entry = EntryLocalServiceUtil.getEntry(entryId);
+			crearModeloEntry(entry, entrada, modelo);
+			
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			entrada.write(out, "JSON-LD");
+
+			return new String(out.toByteArray());
+		} catch (PortalException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		}
+		
 
 	}
 
@@ -271,11 +285,11 @@ public class GuestbookLocalServiceImpl extends GuestbookLocalServiceBaseImpl {
 
 	public void crearModeloGB(List<Guestbook> lista, Model model) {
 
-		String URI = "www.example.org";
+		
 
 		Property nameGB = model.createProperty(URI + "/gb" + ":name");
-		Property tipoGB = model.createProperty(URI + "/gb" + ":tipo");
-		Property idGB = model.createProperty(URI + "/gb" + ":id");
+		//Property tipoGB = model.createProperty(URI + "/gb" + ":type");
+		Property idGB = model.createProperty(URI + "/guestbooks/" + ":id");
 		Resource GB = model.createResource(URI + ":guestbook");
 
 		Guestbook guestbook;
@@ -284,32 +298,66 @@ public class GuestbookLocalServiceImpl extends GuestbookLocalServiceBaseImpl {
 
 			guestbook = iterator.next();
 
-			Resource GB1 = model.createResource(URI + '/' + guestbook.getUuid());
-
+			//Resource GB1 = model.createResource(URI + '/' + guestbook.getUuid());
+			Resource GB1 = model.createResource(URI + "/guestbooks/" + guestbook.getGuestbookId());
 			// model.add(GB1, nameGB, guestbook.getName());
 			// model.add(GB1, idGB, Long.toString(guestbook.getGuestbookId()));
 			// model.add(GB1, tipoGB, GB.toString());
 
 			GB1.addProperty(nameGB, guestbook.getName());
 			GB1.addProperty(idGB, Long.toString(guestbook.getGuestbookId()));
-			GB1.addProperty(tipoGB, GB.toString());
+			//GB1.addProperty(tipoGB, GB.toString());
+			model.add(GB1, RDF.type, GB.toString()) ;
 
 		}
 
 	}
 
-	public void crearModeloEntry(List<Entry> lista, Model p) {
-
-		String URI = "www.example.org";
-
-		Property nameEn = p.createProperty(URI + "/en" + ":name");
-		Property tipoEn = p.createProperty(URI + "/en" + ":tipo");
-		Property idEn = p.createProperty(URI + "/en" + ":id");
+	public void crearModeloEntry(Entry entrada, Model p, Model complete) {
+		
+		Property nameEn = p.createProperty(URI + "/gb" + ":name");
+		//Property tipoEn = p.createProperty(URI + "/gb" + ":type");
+		Property idEn = p.createProperty(URI + "/guestbooks/entry/" + ":idE");
 		Property belongToEn = p.createProperty(URI + "/en" + ":belongTo");
 		Property emailEn = p.createProperty(URI + ":email");
 		Property messageEn = p.createProperty(URI + ":message");
 		Resource entry = p.createResource(URI + ":entry");
-		Property idGB = p.createProperty(URI + "/gb" + ":id");
+		Property idGB = p.createProperty(URI + "/guestbooks/" + ":id");
+
+		
+		
+		//Resource entry1 = p.createResource(URI + '/' + entrada.getUuid());
+		Resource entry1 = p.createResource(URI + "/guestbooks/entry/" + entrada.getEntryId());
+		
+		entry1.addProperty(nameEn, entrada.getName());
+		entry1.addProperty(idEn, Long.toString(entrada.getEntryId()));
+		entry1.addProperty(emailEn, entrada.getEmail());
+		entry1.addProperty(messageEn, entrada.getMessage());
+		//entry1.addProperty(tipoEn, entry);
+		p.add(entry1, RDF.type, entry) ;
+
+		String gb = Long.toString(entrada.getGuestbookId());
+		Node ideGb = NodeFactory.createLiteral(gb);
+		ExtendedIterator<Triple> iter = complete.getGraph().find(Node.ANY, idGB.asNode(), ideGb);
+
+		if (iter.hasNext()) {
+			Triple tripleta = iter.next();
+			entry1.addProperty(belongToEn, tripleta.getMatchSubject().toString());
+		}
+
+
+	}
+
+	public void crearModeloEntry(List<Entry> lista, Model p) {
+
+		Property nameEn = p.createProperty(URI + "/gb" + ":name");
+		//Property tipoEn = p.createProperty(URI + "/gb" + ":type");
+		Property idEn = p.createProperty(URI + "/guestbooks/entry/" + ":idE");
+		Property belongToEn = p.createProperty(URI + "/en" + ":belongTo");
+		Property emailEn = p.createProperty(URI + ":email");
+		Property messageEn = p.createProperty(URI + ":message");
+		Resource entry = p.createResource(URI + ":entry");
+		Property idGB = p.createProperty(URI + "/guestbooks/" + ":id");
 
 		Entry entrada;
 		Iterator<Entry> iterator = lista.iterator();
@@ -317,12 +365,16 @@ public class GuestbookLocalServiceImpl extends GuestbookLocalServiceBaseImpl {
 
 			entrada = iterator.next();
 
-			Resource entry1 = p.createResource(URI + '/' + entrada.getUuid());
+			
+			//Resource entry1 = p.createResource(URI + '/' + entrada.getUuid());
+			Resource entry1 = p.createResource(URI + "/guestbooks/entry/" + entrada.getEntryId());
+			
 			entry1.addProperty(nameEn, entrada.getName());
 			entry1.addProperty(idEn, Long.toString(entrada.getEntryId()));
 			entry1.addProperty(emailEn, entrada.getEmail());
 			entry1.addProperty(messageEn, entrada.getMessage());
-			entry1.addProperty(tipoEn, entry);
+			//entry1.addProperty(tipoEn, entry);
+			p.add(entry1, RDF.type, entry) ;
 
 			String gb = Long.toString(entrada.getGuestbookId());
 			Node ideGb = NodeFactory.createLiteral(gb);
@@ -332,6 +384,7 @@ public class GuestbookLocalServiceImpl extends GuestbookLocalServiceBaseImpl {
 				Triple tripleta = iter.next();
 				entry1.addProperty(belongToEn, tripleta.getMatchSubject().toString());
 			}
+
 
 		}
 

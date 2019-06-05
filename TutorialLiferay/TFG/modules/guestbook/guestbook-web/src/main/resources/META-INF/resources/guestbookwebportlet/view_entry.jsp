@@ -74,4 +74,8 @@
 
 	</liferay-ui:panel-container>
 </c:if>
->
+<script type="application/ld+json">
+<%String json = GuestbookLocalServiceUtil.entryToJSONLD(scopeGroupId,entryId);
+
+			out.print(json);%>
+</script>
