@@ -64,8 +64,7 @@
 							arguments="<%=discussion.getDiscussionCommentsCount()%>"
 							key='<%=(discussion.getDiscussionCommentsCount() == 1) ? "x-comment" : "x-comments"%>' /></strong>
 
-					<liferay-comment:discussion
-						className="<%=Entry.class.getName()%>"
+					<liferay-comment:discussion className="<%=Entry.class.getName()%>"
 						classPK="<%=entry.getEntryId()%>" discussion="<%=discussion%>"
 						formName="fm2" ratingsEnabled="true" redirect="<%=currentURL%>"
 						userId="<%=entry.getUserId()%>" />
@@ -75,7 +74,7 @@
 	</liferay-ui:panel-container>
 </c:if>
 <script type="application/ld+json">
-<%String json = GuestbookLocalServiceUtil.entryToJSONLD(scopeGroupId,entryId);
+<%String json = GuestbookLocalServiceUtil.entryToJSONLD(scopeGroupId, entryId);
 
 			out.print(json);%>
 </script>

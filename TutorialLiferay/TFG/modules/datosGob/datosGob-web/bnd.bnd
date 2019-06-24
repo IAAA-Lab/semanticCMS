@@ -1,0 +1,4 @@
+Bundle-Name: datosGob-web
+Bundle-SymbolicName: com.liferay.docs.datosgob.portlet
+Bundle-Version: 1.0.0
+Export-Package: com.liferay.docs.datosgob.portlet.constants

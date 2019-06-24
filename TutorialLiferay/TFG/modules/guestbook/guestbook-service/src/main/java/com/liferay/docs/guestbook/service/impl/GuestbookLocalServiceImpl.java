@@ -272,7 +272,7 @@ public class GuestbookLocalServiceImpl extends GuestbookLocalServiceBaseImpl {
 	public void mostrar(Model p) {
 		System.out.println("----------");
 		ExtendedIterator<Triple> salida = p.getGraph().find();
-		System.out.println("Tamaño: " + p.getGraph().size());
+		System.out.println("TamaÃ±o: " + p.getGraph().size());
 
 		while (salida.hasNext()) {
 			Triple tripleta = salida.next();

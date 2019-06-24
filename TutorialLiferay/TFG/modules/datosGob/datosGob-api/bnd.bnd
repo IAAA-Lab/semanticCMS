@@ -1,0 +1,10 @@
+Bundle-Name: datosGob-api
+Bundle-SymbolicName: com.liferay.docs.datosGob.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.liferay.docs.datosGob.exception,\
+	com.liferay.docs.datosGob.model,\
+	com.liferay.docs.datosGob.service,\
+	com.liferay.docs.datosGob.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../datosGob-service/service.xml

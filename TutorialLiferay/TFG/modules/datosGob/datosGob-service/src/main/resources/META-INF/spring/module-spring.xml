@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<beans
+	default-destroy-method="destroy"
+	default-init-method="afterPropertiesSet"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+	<bean class="com.liferay.docs.datosGob.service.impl.ColeccionLocalServiceImpl" id="com.liferay.docs.datosGob.service.ColeccionLocalService" />
+	<bean class="com.liferay.docs.datosGob.service.impl.ColeccionServiceImpl" id="com.liferay.docs.datosGob.service.ColeccionService" />
+	<bean class="com.liferay.docs.datosGob.service.persistence.impl.ColeccionPersistenceImpl" id="com.liferay.docs.datosGob.service.persistence.ColeccionPersistence" parent="basePersistence" />
+	<bean class="com.liferay.docs.datosGob.service.impl.DatasetLocalServiceImpl" id="com.liferay.docs.datosGob.service.DatasetLocalService" />
+	<bean class="com.liferay.docs.datosGob.service.impl.DatasetServiceImpl" id="com.liferay.docs.datosGob.service.DatasetService" />
+	<bean class="com.liferay.docs.datosGob.service.persistence.impl.DatasetPersistenceImpl" id="com.liferay.docs.datosGob.service.persistence.DatasetPersistence" parent="basePersistence" />
+	<bean class="com.liferay.docs.datosGob.service.impl.DescripcionLocalServiceImpl" id="com.liferay.docs.datosGob.service.DescripcionLocalService" />
+	<bean class="com.liferay.docs.datosGob.service.impl.DescripcionServiceImpl" id="com.liferay.docs.datosGob.service.DescripcionService" />
+	<bean class="com.liferay.docs.datosGob.service.persistence.impl.DescripcionPersistenceImpl" id="com.liferay.docs.datosGob.service.persistence.DescripcionPersistence" parent="basePersistence" />
+	<bean class="com.liferay.docs.datosGob.service.impl.DistributionLocalServiceImpl" id="com.liferay.docs.datosGob.service.DistributionLocalService" />
+	<bean class="com.liferay.docs.datosGob.service.impl.DistributionServiceImpl" id="com.liferay.docs.datosGob.service.DistributionService" />
+	<bean class="com.liferay.docs.datosGob.service.persistence.impl.DistributionPersistenceImpl" id="com.liferay.docs.datosGob.service.persistence.DistributionPersistence" parent="basePersistence" />
+	<bean class="com.liferay.docs.datosGob.service.impl.TituloLocalServiceImpl" id="com.liferay.docs.datosGob.service.TituloLocalService" />
+	<bean class="com.liferay.docs.datosGob.service.impl.TituloServiceImpl" id="com.liferay.docs.datosGob.service.TituloService" />
+	<bean class="com.liferay.docs.datosGob.service.persistence.impl.TituloPersistenceImpl" id="com.liferay.docs.datosGob.service.persistence.TituloPersistence" parent="basePersistence" />
+</beans>

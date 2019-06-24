@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.1.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_1_0.dtd">
+
+<service-builder auto-namespace-tables="true"
+	package-path="com.liferay.docs.datosGob">
+	<author>liferay</author>
+	<namespace>DB</namespace>
+	<entity name="Coleccion" local-service="true" uuid="true">
+
+		<column name="groupId" type="long" />
+
+		<column name="homepage" primary="true" type="String" />
+		<column name="titulo" type="String" />
+
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+
+
+	</entity>
+
+	<entity name="Dataset" local-service="true" uuid="true">
+
+		<column name="datasetId" primary="true" type="String" />
+
+		<column name="groupId" type="long" />
+
+		<column name="homepage" type="String" />
+
+		<finder name="D_D" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="homepage" />
+		</finder>
+
+
+	</entity>
+
+	<entity name="Titulo" local-service="true"
+		uuid="true">
+		<column name="groupId" type="long" />
+
+		<column name="tituloId" type="long" primary="true" />
+		<column name="titulo" type="String" />
+		<column name="datasetId" type="String"></column>
+
+		<finder name="T_D" return-type="Collection">
+			<finder-column name="datasetId" />
+			<finder-column name="groupId" />
+		</finder>
+
+	</entity>
+
+	<entity name="Descripcion" local-service="true"
+		uuid="true">
+		<column name="groupId" type="long" />
+		
+		<column name="descripcionId" type="long" primary="true" />
+		<column name="descripcion" type="String" />
+		<column name="datasetId" type="String" />
+
+		<finder name="De_D" return-type="Collection">
+			<finder-column name="datasetId" />
+			<finder-column name="groupId" />
+		</finder>
+
+	</entity>
+
+
+
+	<entity name="Distribution" local-service="true" uuid="true">
+
+		<column name="url" primary="true" type="String" />
+
+		<column name="groupId" type="long" />
+
+		<column name="tipo" type="String" />
+
+		<column name="datasetId" type="String" />
+
+
+		<finder name="Di_D" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="datasetId" />
+		</finder>
+	</entity>
+
+
+
+
+</service-builder>
+		
+		
