@@ -9,7 +9,9 @@
 	<b><liferay-ui:message key="datosgob.caption" /></b>
 </p>
 <%
-	out.print(coleccionId);
+	out.print(scopeGroupId.longValue()+"\n");
+	out.print(coleccionId+"\n");
+
 %>
 
 

@@ -75,6 +75,7 @@ public class DatosGobPortlet extends MVCPortlet {
 				}
 				
 			}
+			System.out.println(coleccionId);
 
 			renderRequest.setAttribute("coleccionId", coleccionId);
 		} catch (Exception e) {
