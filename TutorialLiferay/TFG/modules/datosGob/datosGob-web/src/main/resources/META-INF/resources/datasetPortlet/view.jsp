@@ -5,14 +5,6 @@
 	String datasetId = String.valueOf((String) renderRequest.getAttribute("datasetId"));
 %>
 
-<p>
-	<b><liferay-ui:message key="dataset.caption" /></b>
-</p>
-
-<%
-	out.print(scopeGroupId.longValue()+"\n");
-%>
-
 <c:if test="<%=datasetId != "Vacío"%>">
 	<dl>
 		<dt>DatasetHomepage</dt>
@@ -32,7 +24,7 @@
 			className="com.liferay.docs.datosGob.model.Titulo" modelVar="Título">
 
 
-			<liferay-ui:search-container-column-text property="titulo" />
+			<liferay-ui:search-container-column-text name="Títulos" property="titulo" />
 
 
 
@@ -53,7 +45,7 @@
 			className="com.liferay.docs.datosGob.model.Descripcion"
 			modelVar="descripcion">
 
-			<liferay-ui:search-container-column-text property="descripcion" />
+			<liferay-ui:search-container-column-text name="Descripciones" property="descripcion" />
 
 
 
@@ -76,7 +68,7 @@
 
 
 
-			<liferay-ui:search-container-column-text property="tipo" />
+			<liferay-ui:search-container-column-text name="Distribuciones" property="tipo" />
 
 			<liferay-ui:search-container-column-text name="Ir">
 				<a href="<%=distribution.getUrl() %>">Ir</a>
@@ -89,6 +81,11 @@
 		<liferay-ui:search-iterator />
 
 	</liferay-ui:search-container>
+</c:if>
+<c:if test="<%=datasetId == "Vacío"%>">
+<%
+	out.print("Este portlet muestra información de los datasets.");
+%>
 </c:if>
 
 

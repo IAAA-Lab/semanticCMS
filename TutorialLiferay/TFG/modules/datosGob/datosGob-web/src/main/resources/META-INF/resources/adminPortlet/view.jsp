@@ -23,3 +23,17 @@
 	<aui:button onClick="<%=deleteAllURL%>" value="deleteAll"></aui:button>
 
 </aui:button-row>
+
+
+<p>
+Añadir ficher con los datos CSV
+</p>
+
+<portlet:actionURL var="uploadFile" name="uploadFileAction">
+
+</portlet:actionURL>
+<aui:form action="<%=uploadFile%>" method="post"
+	enctype="multipart/form-data">
+	<aui:input type="file" name="sampleFile" />
+	<button type="submit" class="defaultButton" style="margin-left: 10px;">Upload</button>
+</aui:form>

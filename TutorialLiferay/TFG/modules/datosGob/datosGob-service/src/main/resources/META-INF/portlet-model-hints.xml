@@ -17,7 +17,9 @@
 		<field name="uuid" type="String" />
 		<field name="groupId" type="long" />
 		<field name="descripcionId" type="long" />
-		<field name="descripcion" type="String" />
+		<field name="descripcion" type="String">
+			<hint name="max-length">500</hint>
+		</field>
 		<field name="datasetId" type="String" />
 	</model>
 	<model name="com.liferay.docs.datosGob.model.Distribution">

@@ -23,7 +23,7 @@
 	<liferay-ui:search-container-row
 		className="com.liferay.docs.datosGob.model.Dataset" modelVar="dataset">
 
-		<liferay-ui:search-container-column-text property="datasetId" />
+		<liferay-ui:search-container-column-text value="<%=TituloLocalServiceUtil.getTitulos(scopeGroupId.longValue(), dataset.getDatasetId()).get(0).getTitulo()%>" />
 
 		<liferay-ui:search-container-column-jsp
 			path="/coleccionPortlet/view_action.jsp" align="right" />

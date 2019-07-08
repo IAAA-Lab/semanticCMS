@@ -16,7 +16,7 @@ create table DB_Descripcion (
 	uuid_ VARCHAR(75) null,
 	groupId LONG,
 	descripcionId LONG not null primary key,
-	descripcion VARCHAR(75) null,
+	descripcion VARCHAR(500) null,
 	datasetId VARCHAR(75) null
 );
 

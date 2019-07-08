@@ -83,7 +83,7 @@ public class DescripcionModelImpl extends BaseModelImpl<Descripcion>
 		TABLE_COLUMNS_MAP.put("datasetId", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table DB_Descripcion (uuid_ VARCHAR(75) null,groupId LONG,descripcionId LONG not null primary key,descripcion VARCHAR(75) null,datasetId VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table DB_Descripcion (uuid_ VARCHAR(75) null,groupId LONG,descripcionId LONG not null primary key,descripcion VARCHAR(500) null,datasetId VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table DB_Descripcion";
 	public static final String ORDER_BY_JPQL = " ORDER BY descripcion.descripcionId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY DB_Descripcion.descripcionId ASC";
