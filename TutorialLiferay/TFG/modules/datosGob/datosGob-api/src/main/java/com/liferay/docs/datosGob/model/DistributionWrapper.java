@@ -58,6 +58,7 @@ public class DistributionWrapper implements Distribution,
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("uuid", getUuid());
+		attributes.put("distributionId", getDistributionId());
 		attributes.put("url", getUrl());
 		attributes.put("groupId", getGroupId());
 		attributes.put("tipo", getTipo());
@@ -72,6 +73,12 @@ public class DistributionWrapper implements Distribution,
 
 		if (uuid != null) {
 			setUuid(uuid);
+		}
+
+		Long distributionId = (Long)attributes.get("distributionId");
+
+		if (distributionId != null) {
+			setDistributionId(distributionId);
 		}
 
 		String url = (String)attributes.get("url");
@@ -119,6 +126,16 @@ public class DistributionWrapper implements Distribution,
 		return _distribution.getDatasetId();
 	}
 
+	/**
+	* Returns the distribution ID of this distribution.
+	*
+	* @return the distribution ID of this distribution
+	*/
+	@Override
+	public long getDistributionId() {
+		return _distribution.getDistributionId();
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _distribution.getExpandoBridge();
@@ -140,7 +157,7 @@ public class DistributionWrapper implements Distribution,
 	* @return the primary key of this distribution
 	*/
 	@Override
-	public String getPrimaryKey() {
+	public long getPrimaryKey() {
 		return _distribution.getPrimaryKey();
 	}
 
@@ -219,6 +236,16 @@ public class DistributionWrapper implements Distribution,
 		_distribution.setDatasetId(datasetId);
 	}
 
+	/**
+	* Sets the distribution ID of this distribution.
+	*
+	* @param distributionId the distribution ID of this distribution
+	*/
+	@Override
+	public void setDistributionId(long distributionId) {
+		_distribution.setDistributionId(distributionId);
+	}
+
 	@Override
 	public void setExpandoBridgeAttributes(
 		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
@@ -256,7 +283,7 @@ public class DistributionWrapper implements Distribution,
 	* @param primaryKey the primary key of this distribution
 	*/
 	@Override
-	public void setPrimaryKey(String primaryKey) {
+	public void setPrimaryKey(long primaryKey) {
 		_distribution.setPrimaryKey(primaryKey);
 	}
 

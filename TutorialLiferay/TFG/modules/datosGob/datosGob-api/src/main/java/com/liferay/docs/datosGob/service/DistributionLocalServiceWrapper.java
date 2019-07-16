@@ -45,16 +45,25 @@ public class DistributionLocalServiceWrapper implements DistributionLocalService
 		return _distributionLocalService.addDistribution(distribution);
 	}
 
+	@Override
+	public com.liferay.docs.datosGob.model.Distribution addDistribution(
+		String datasetId, String url, String tipo,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _distributionLocalService.addDistribution(datasetId, url, tipo,
+			serviceContext);
+	}
+
 	/**
 	* Creates a new distribution with the primary key. Does not add the distribution to the database.
 	*
-	* @param url the primary key for the new distribution
+	* @param distributionId the primary key for the new distribution
 	* @return the new distribution
 	*/
 	@Override
 	public com.liferay.docs.datosGob.model.Distribution createDistribution(
-		String url) {
-		return _distributionLocalService.createDistribution(url);
+		long distributionId) {
+		return _distributionLocalService.createDistribution(distributionId);
 	}
 
 	/**
@@ -72,14 +81,15 @@ public class DistributionLocalServiceWrapper implements DistributionLocalService
 	/**
 	* Deletes the distribution with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param url the primary key of the distribution
+	* @param distributionId the primary key of the distribution
 	* @return the distribution that was removed
 	* @throws PortalException if a distribution with the primary key could not be found
 	*/
 	@Override
 	public com.liferay.docs.datosGob.model.Distribution deleteDistribution(
-		String url) throws com.liferay.portal.kernel.exception.PortalException {
-		return _distributionLocalService.deleteDistribution(url);
+		long distributionId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _distributionLocalService.deleteDistribution(distributionId);
 	}
 
 	/**
@@ -179,8 +189,8 @@ public class DistributionLocalServiceWrapper implements DistributionLocalService
 
 	@Override
 	public com.liferay.docs.datosGob.model.Distribution fetchDistribution(
-		String url) {
-		return _distributionLocalService.fetchDistribution(url);
+		long distributionId) {
+		return _distributionLocalService.fetchDistribution(distributionId);
 	}
 
 	/**
@@ -197,17 +207,23 @@ public class DistributionLocalServiceWrapper implements DistributionLocalService
 			groupId);
 	}
 
+	@Override
+	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
+		return _distributionLocalService.getActionableDynamicQuery();
+	}
+
 	/**
 	* Returns the distribution with the primary key.
 	*
-	* @param url the primary key of the distribution
+	* @param distributionId the primary key of the distribution
 	* @return the distribution
 	* @throws PortalException if a distribution with the primary key could not be found
 	*/
 	@Override
 	public com.liferay.docs.datosGob.model.Distribution getDistribution(
-		String url) throws com.liferay.portal.kernel.exception.PortalException {
-		return _distributionLocalService.getDistribution(url);
+		long distributionId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _distributionLocalService.getDistribution(distributionId);
 	}
 
 	/**
@@ -279,6 +295,11 @@ public class DistributionLocalServiceWrapper implements DistributionLocalService
 	public int getDistributionsCount(long groupId, String coleccionId) {
 		return _distributionLocalService.getDistributionsCount(groupId,
 			coleccionId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
+		return _distributionLocalService.getIndexableActionableDynamicQuery();
 	}
 
 	/**

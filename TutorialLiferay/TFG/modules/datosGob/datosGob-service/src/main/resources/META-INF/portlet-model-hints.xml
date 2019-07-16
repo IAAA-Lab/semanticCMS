@@ -3,13 +3,17 @@
 <model-hints>
 	<model name="com.liferay.docs.datosGob.model.Coleccion">
 		<field name="uuid" type="String" />
-		<field name="groupId" type="long" />
+		<field name="groupId" type="long">
+			<hint name="max-length">300</hint>
+		</field>
 		<field name="homepage" type="String" />
 		<field name="titulo" type="String" />
 	</model>
 	<model name="com.liferay.docs.datosGob.model.Dataset">
 		<field name="uuid" type="String" />
-		<field name="datasetId" type="String" />
+		<field name="datasetId" type="String">
+			<hint name="max-length">500</hint>
+		</field>
 		<field name="groupId" type="long" />
 		<field name="homepage" type="String" />
 	</model>
@@ -18,24 +22,33 @@
 		<field name="groupId" type="long" />
 		<field name="descripcionId" type="long" />
 		<field name="descripcion" type="String">
+			<hint name="max-length">8000</hint>
+		</field>
+		<field name="datasetId" type="String">
 			<hint name="max-length">500</hint>
 		</field>
-		<field name="datasetId" type="String" />
 	</model>
 	<model name="com.liferay.docs.datosGob.model.Distribution">
 		<field name="uuid" type="String" />
+		<field name="distributionId" type="long" />
 		<field name="url" type="String">
-			<hint name="max-length">500</hint>
+			<hint name="max-length">1500</hint>
 		</field>
 		<field name="groupId" type="long" />
 		<field name="tipo" type="String" />
-		<field name="datasetId" type="String" />
+		<field name="datasetId" type="String">
+			<hint name="max-length">500</hint>
+		</field>
 	</model>
 	<model name="com.liferay.docs.datosGob.model.Titulo">
 		<field name="uuid" type="String" />
 		<field name="groupId" type="long" />
 		<field name="tituloId" type="long" />
-		<field name="titulo" type="String" />
-		<field name="datasetId" type="String" />
+		<field name="titulo" type="String">
+			<hint name="max-length">500</hint>
+		</field>
+		<field name="datasetId" type="String">
+			<hint name="max-length">500</hint>
+		</field>
 	</model>
 </model-hints>

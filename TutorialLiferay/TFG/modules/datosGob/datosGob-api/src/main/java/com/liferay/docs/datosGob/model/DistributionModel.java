@@ -51,14 +51,14 @@ public interface DistributionModel extends BaseModel<Distribution> {
 	 *
 	 * @return the primary key of this distribution
 	 */
-	public String getPrimaryKey();
+	public long getPrimaryKey();
 
 	/**
 	 * Sets the primary key of this distribution.
 	 *
 	 * @param primaryKey the primary key of this distribution
 	 */
-	public void setPrimaryKey(String primaryKey);
+	public void setPrimaryKey(long primaryKey);
 
 	/**
 	 * Returns the uuid of this distribution.
@@ -74,6 +74,20 @@ public interface DistributionModel extends BaseModel<Distribution> {
 	 * @param uuid the uuid of this distribution
 	 */
 	public void setUuid(String uuid);
+
+	/**
+	 * Returns the distribution ID of this distribution.
+	 *
+	 * @return the distribution ID of this distribution
+	 */
+	public long getDistributionId();
+
+	/**
+	 * Sets the distribution ID of this distribution.
+	 *
+	 * @param distributionId the distribution ID of this distribution
+	 */
+	public void setDistributionId(long distributionId);
 
 	/**
 	 * Returns the url of this distribution.

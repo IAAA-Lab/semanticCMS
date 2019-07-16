@@ -54,15 +54,22 @@ public class DistributionLocalServiceUtil {
 		return getService().addDistribution(distribution);
 	}
 
+	public static com.liferay.docs.datosGob.model.Distribution addDistribution(
+		String datasetId, String url, String tipo,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().addDistribution(datasetId, url, tipo, serviceContext);
+	}
+
 	/**
 	* Creates a new distribution with the primary key. Does not add the distribution to the database.
 	*
-	* @param url the primary key for the new distribution
+	* @param distributionId the primary key for the new distribution
 	* @return the new distribution
 	*/
 	public static com.liferay.docs.datosGob.model.Distribution createDistribution(
-		String url) {
-		return getService().createDistribution(url);
+		long distributionId) {
+		return getService().createDistribution(distributionId);
 	}
 
 	/**
@@ -79,13 +86,14 @@ public class DistributionLocalServiceUtil {
 	/**
 	* Deletes the distribution with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param url the primary key of the distribution
+	* @param distributionId the primary key of the distribution
 	* @return the distribution that was removed
 	* @throws PortalException if a distribution with the primary key could not be found
 	*/
 	public static com.liferay.docs.datosGob.model.Distribution deleteDistribution(
-		String url) throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().deleteDistribution(url);
+		long distributionId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().deleteDistribution(distributionId);
 	}
 
 	/**
@@ -176,8 +184,8 @@ public class DistributionLocalServiceUtil {
 	}
 
 	public static com.liferay.docs.datosGob.model.Distribution fetchDistribution(
-		String url) {
-		return getService().fetchDistribution(url);
+		long distributionId) {
+		return getService().fetchDistribution(distributionId);
 	}
 
 	/**
@@ -192,16 +200,21 @@ public class DistributionLocalServiceUtil {
 		return getService().fetchDistributionByUuidAndGroupId(uuid, groupId);
 	}
 
+	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
+		return getService().getActionableDynamicQuery();
+	}
+
 	/**
 	* Returns the distribution with the primary key.
 	*
-	* @param url the primary key of the distribution
+	* @param distributionId the primary key of the distribution
 	* @return the distribution
 	* @throws PortalException if a distribution with the primary key could not be found
 	*/
 	public static com.liferay.docs.datosGob.model.Distribution getDistribution(
-		String url) throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getDistribution(url);
+		long distributionId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getDistribution(distributionId);
 	}
 
 	/**
@@ -262,6 +275,10 @@ public class DistributionLocalServiceUtil {
 
 	public static int getDistributionsCount(long groupId, String coleccionId) {
 		return getService().getDistributionsCount(groupId, coleccionId);
+	}
+
+	public static com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
+		return getService().getIndexableActionableDynamicQuery();
 	}
 
 	/**

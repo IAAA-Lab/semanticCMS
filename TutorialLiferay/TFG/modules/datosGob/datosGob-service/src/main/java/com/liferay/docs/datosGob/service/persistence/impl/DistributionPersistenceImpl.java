@@ -394,17 +394,17 @@ public class DistributionPersistenceImpl extends BasePersistenceImpl<Distributio
 	/**
 	 * Returns the distributions before and after the current distribution in the ordered set where uuid = &#63;.
 	 *
-	 * @param url the primary key of the current distribution
+	 * @param distributionId the primary key of the current distribution
 	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next distribution
 	 * @throws NoSuchDistributionException if a distribution with the primary key could not be found
 	 */
 	@Override
-	public Distribution[] findByUuid_PrevAndNext(String url, String uuid,
-		OrderByComparator<Distribution> orderByComparator)
+	public Distribution[] findByUuid_PrevAndNext(long distributionId,
+		String uuid, OrderByComparator<Distribution> orderByComparator)
 		throws NoSuchDistributionException {
-		Distribution distribution = findByPrimaryKey(url);
+		Distribution distribution = findByPrimaryKey(distributionId);
 
 		Session session = null;
 
@@ -1215,7 +1215,7 @@ public class DistributionPersistenceImpl extends BasePersistenceImpl<Distributio
 	/**
 	 * Returns the distributions before and after the current distribution in the ordered set where groupId = &#63; and datasetId = &#63;.
 	 *
-	 * @param url the primary key of the current distribution
+	 * @param distributionId the primary key of the current distribution
 	 * @param groupId the group ID
 	 * @param datasetId the dataset ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -1223,10 +1223,11 @@ public class DistributionPersistenceImpl extends BasePersistenceImpl<Distributio
 	 * @throws NoSuchDistributionException if a distribution with the primary key could not be found
 	 */
 	@Override
-	public Distribution[] findByDi_D_PrevAndNext(String url, long groupId,
-		String datasetId, OrderByComparator<Distribution> orderByComparator)
+	public Distribution[] findByDi_D_PrevAndNext(long distributionId,
+		long groupId, String datasetId,
+		OrderByComparator<Distribution> orderByComparator)
 		throws NoSuchDistributionException {
-		Distribution distribution = findByPrimaryKey(url);
+		Distribution distribution = findByPrimaryKey(distributionId);
 
 		Session session = null;
 
@@ -1611,15 +1612,15 @@ public class DistributionPersistenceImpl extends BasePersistenceImpl<Distributio
 	/**
 	 * Creates a new distribution with the primary key. Does not add the distribution to the database.
 	 *
-	 * @param url the primary key for the new distribution
+	 * @param distributionId the primary key for the new distribution
 	 * @return the new distribution
 	 */
 	@Override
-	public Distribution create(String url) {
+	public Distribution create(long distributionId) {
 		Distribution distribution = new DistributionImpl();
 
 		distribution.setNew(true);
-		distribution.setPrimaryKey(url);
+		distribution.setPrimaryKey(distributionId);
 
 		String uuid = PortalUUIDUtil.generate();
 
@@ -1631,13 +1632,14 @@ public class DistributionPersistenceImpl extends BasePersistenceImpl<Distributio
 	/**
 	 * Removes the distribution with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param url the primary key of the distribution
+	 * @param distributionId the primary key of the distribution
 	 * @return the distribution that was removed
 	 * @throws NoSuchDistributionException if a distribution with the primary key could not be found
 	 */
 	@Override
-	public Distribution remove(String url) throws NoSuchDistributionException {
-		return remove((Serializable)url);
+	public Distribution remove(long distributionId)
+		throws NoSuchDistributionException {
+		return remove((Serializable)distributionId);
 	}
 
 	/**
@@ -1865,14 +1867,14 @@ public class DistributionPersistenceImpl extends BasePersistenceImpl<Distributio
 	/**
 	 * Returns the distribution with the primary key or throws a {@link NoSuchDistributionException} if it could not be found.
 	 *
-	 * @param url the primary key of the distribution
+	 * @param distributionId the primary key of the distribution
 	 * @return the distribution
 	 * @throws NoSuchDistributionException if a distribution with the primary key could not be found
 	 */
 	@Override
-	public Distribution findByPrimaryKey(String url)
+	public Distribution findByPrimaryKey(long distributionId)
 		throws NoSuchDistributionException {
-		return findByPrimaryKey((Serializable)url);
+		return findByPrimaryKey((Serializable)distributionId);
 	}
 
 	/**
@@ -1926,12 +1928,12 @@ public class DistributionPersistenceImpl extends BasePersistenceImpl<Distributio
 	/**
 	 * Returns the distribution with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param url the primary key of the distribution
+	 * @param distributionId the primary key of the distribution
 	 * @return the distribution, or <code>null</code> if a distribution with the primary key could not be found
 	 */
 	@Override
-	public Distribution fetchByPrimaryKey(String url) {
-		return fetchByPrimaryKey((Serializable)url);
+	public Distribution fetchByPrimaryKey(long distributionId) {
+		return fetchByPrimaryKey((Serializable)distributionId);
 	}
 
 	@Override
@@ -1986,8 +1988,8 @@ public class DistributionPersistenceImpl extends BasePersistenceImpl<Distributio
 
 		query.append(_SQL_SELECT_DISTRIBUTION_WHERE_PKS_IN);
 
-		for (int i = 0; i < uncachedPrimaryKeys.size(); i++) {
-			query.append("?");
+		for (Serializable primaryKey : uncachedPrimaryKeys) {
+			query.append((long)primaryKey);
 
 			query.append(",");
 		}
@@ -2004,12 +2006,6 @@ public class DistributionPersistenceImpl extends BasePersistenceImpl<Distributio
 			session = openSession();
 
 			Query q = session.createQuery(sql);
-
-			QueryPos qPos = QueryPos.getInstance(q);
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				qPos.add((String)primaryKey);
-			}
 
 			for (Distribution distribution : (List<Distribution>)q.list()) {
 				map.put(distribution.getPrimaryKeyObj(), distribution);
@@ -2253,7 +2249,7 @@ public class DistributionPersistenceImpl extends BasePersistenceImpl<Distributio
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
 	private static final String _SQL_SELECT_DISTRIBUTION = "SELECT distribution FROM Distribution distribution";
-	private static final String _SQL_SELECT_DISTRIBUTION_WHERE_PKS_IN = "SELECT distribution FROM Distribution distribution WHERE url IN (";
+	private static final String _SQL_SELECT_DISTRIBUTION_WHERE_PKS_IN = "SELECT distribution FROM Distribution distribution WHERE distributionId IN (";
 	private static final String _SQL_SELECT_DISTRIBUTION_WHERE = "SELECT distribution FROM Distribution distribution WHERE ";
 	private static final String _SQL_COUNT_DISTRIBUTION = "SELECT COUNT(distribution) FROM Distribution distribution";
 	private static final String _SQL_COUNT_DISTRIBUTION_WHERE = "SELECT COUNT(distribution) FROM Distribution distribution WHERE ";

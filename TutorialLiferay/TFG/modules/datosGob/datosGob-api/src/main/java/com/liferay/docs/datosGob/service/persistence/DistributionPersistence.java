@@ -147,13 +147,14 @@ public interface DistributionPersistence extends BasePersistence<Distribution> {
 	/**
 	* Returns the distributions before and after the current distribution in the ordered set where uuid = &#63;.
 	*
-	* @param url the primary key of the current distribution
+	* @param distributionId the primary key of the current distribution
 	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next distribution
 	* @throws NoSuchDistributionException if a distribution with the primary key could not be found
 	*/
-	public Distribution[] findByUuid_PrevAndNext(String url, String uuid,
+	public Distribution[] findByUuid_PrevAndNext(long distributionId,
+		String uuid,
 		com.liferay.portal.kernel.util.OrderByComparator<Distribution> orderByComparator)
 		throws NoSuchDistributionException;
 
@@ -337,15 +338,15 @@ public interface DistributionPersistence extends BasePersistence<Distribution> {
 	/**
 	* Returns the distributions before and after the current distribution in the ordered set where groupId = &#63; and datasetId = &#63;.
 	*
-	* @param url the primary key of the current distribution
+	* @param distributionId the primary key of the current distribution
 	* @param groupId the group ID
 	* @param datasetId the dataset ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next distribution
 	* @throws NoSuchDistributionException if a distribution with the primary key could not be found
 	*/
-	public Distribution[] findByDi_D_PrevAndNext(String url, long groupId,
-		String datasetId,
+	public Distribution[] findByDi_D_PrevAndNext(long distributionId,
+		long groupId, String datasetId,
 		com.liferay.portal.kernel.util.OrderByComparator<Distribution> orderByComparator)
 		throws NoSuchDistributionException;
 
@@ -383,39 +384,40 @@ public interface DistributionPersistence extends BasePersistence<Distribution> {
 	/**
 	* Creates a new distribution with the primary key. Does not add the distribution to the database.
 	*
-	* @param url the primary key for the new distribution
+	* @param distributionId the primary key for the new distribution
 	* @return the new distribution
 	*/
-	public Distribution create(String url);
+	public Distribution create(long distributionId);
 
 	/**
 	* Removes the distribution with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param url the primary key of the distribution
+	* @param distributionId the primary key of the distribution
 	* @return the distribution that was removed
 	* @throws NoSuchDistributionException if a distribution with the primary key could not be found
 	*/
-	public Distribution remove(String url) throws NoSuchDistributionException;
+	public Distribution remove(long distributionId)
+		throws NoSuchDistributionException;
 
 	public Distribution updateImpl(Distribution distribution);
 
 	/**
 	* Returns the distribution with the primary key or throws a {@link NoSuchDistributionException} if it could not be found.
 	*
-	* @param url the primary key of the distribution
+	* @param distributionId the primary key of the distribution
 	* @return the distribution
 	* @throws NoSuchDistributionException if a distribution with the primary key could not be found
 	*/
-	public Distribution findByPrimaryKey(String url)
+	public Distribution findByPrimaryKey(long distributionId)
 		throws NoSuchDistributionException;
 
 	/**
 	* Returns the distribution with the primary key or returns <code>null</code> if it could not be found.
 	*
-	* @param url the primary key of the distribution
+	* @param distributionId the primary key of the distribution
 	* @return the distribution, or <code>null</code> if a distribution with the primary key could not be found
 	*/
-	public Distribution fetchByPrimaryKey(String url);
+	public Distribution fetchByPrimaryKey(long distributionId);
 
 	@Override
 	public java.util.Map<java.io.Serializable, Distribution> fetchByPrimaryKeys(

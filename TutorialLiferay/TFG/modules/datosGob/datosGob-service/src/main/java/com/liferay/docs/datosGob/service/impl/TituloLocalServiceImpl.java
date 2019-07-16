@@ -46,7 +46,7 @@ public class TituloLocalServiceImpl extends TituloLocalServiceBaseImpl {
 	 * Never reference this class directly. Always use {@link com.liferay.docs.datosGob.service.TituloLocalServiceUtil} to access the titulo local service.
 	 */
 	
-public Titulo addDescripcion(String datasetId, String titu, ServiceContext serviceContext) throws PortalException {
+public Titulo addTitulo(String datasetId, String titu, ServiceContext serviceContext) throws PortalException {
 		
 		long entryId = counterLocalService.increment();
 		

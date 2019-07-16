@@ -61,7 +61,7 @@ public interface TituloLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link TituloLocalServiceUtil} to access the titulo local service. Add custom service methods to {@link com.liferay.docs.datosGob.service.impl.TituloLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public Titulo addDescripcion(String datasetId, String titu,
+	public Titulo addTitulo(String datasetId, String titu,
 		ServiceContext serviceContext) throws PortalException;
 
 	/**

@@ -68,8 +68,10 @@
 
 
 	<entity name="Distribution" local-service="true" uuid="true">
+	
+		<column name="distributionId" primary="true" type="long" />
 
-		<column name="url" primary="true" type="String" />
+		<column name="url" type="String" />
 
 		<column name="groupId" type="long" />
 

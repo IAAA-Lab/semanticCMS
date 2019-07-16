@@ -50,7 +50,7 @@ public class DistributionCacheModel implements CacheModel<Distribution>,
 
 		DistributionCacheModel distributionCacheModel = (DistributionCacheModel)obj;
 
-		if (url.equals(distributionCacheModel.url)) {
+		if (distributionId == distributionCacheModel.distributionId) {
 			return true;
 		}
 
@@ -59,15 +59,17 @@ public class DistributionCacheModel implements CacheModel<Distribution>,
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, url);
+		return HashUtil.hash(0, distributionId);
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
+		sb.append(", distributionId=");
+		sb.append(distributionId);
 		sb.append(", url=");
 		sb.append(url);
 		sb.append(", groupId=");
@@ -91,6 +93,8 @@ public class DistributionCacheModel implements CacheModel<Distribution>,
 		else {
 			distributionImpl.setUuid(uuid);
 		}
+
+		distributionImpl.setDistributionId(distributionId);
 
 		if (url == null) {
 			distributionImpl.setUrl("");
@@ -123,6 +127,8 @@ public class DistributionCacheModel implements CacheModel<Distribution>,
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		uuid = objectInput.readUTF();
+
+		distributionId = objectInput.readLong();
 		url = objectInput.readUTF();
 
 		groupId = objectInput.readLong();
@@ -139,6 +145,8 @@ public class DistributionCacheModel implements CacheModel<Distribution>,
 		else {
 			objectOutput.writeUTF(uuid);
 		}
+
+		objectOutput.writeLong(distributionId);
 
 		if (url == null) {
 			objectOutput.writeUTF("");
@@ -165,6 +173,7 @@ public class DistributionCacheModel implements CacheModel<Distribution>,
 	}
 
 	public String uuid;
+	public long distributionId;
 	public String url;
 	public long groupId;
 	public String tipo;

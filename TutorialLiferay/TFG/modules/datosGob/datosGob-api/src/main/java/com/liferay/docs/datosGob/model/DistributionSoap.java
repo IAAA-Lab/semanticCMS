@@ -34,6 +34,7 @@ public class DistributionSoap implements Serializable {
 		DistributionSoap soapModel = new DistributionSoap();
 
 		soapModel.setUuid(model.getUuid());
+		soapModel.setDistributionId(model.getDistributionId());
 		soapModel.setUrl(model.getUrl());
 		soapModel.setGroupId(model.getGroupId());
 		soapModel.setTipo(model.getTipo());
@@ -82,12 +83,12 @@ public class DistributionSoap implements Serializable {
 	public DistributionSoap() {
 	}
 
-	public String getPrimaryKey() {
-		return _url;
+	public long getPrimaryKey() {
+		return _distributionId;
 	}
 
-	public void setPrimaryKey(String pk) {
-		setUrl(pk);
+	public void setPrimaryKey(long pk) {
+		setDistributionId(pk);
 	}
 
 	public String getUuid() {
@@ -96,6 +97,14 @@ public class DistributionSoap implements Serializable {
 
 	public void setUuid(String uuid) {
 		_uuid = uuid;
+	}
+
+	public long getDistributionId() {
+		return _distributionId;
+	}
+
+	public void setDistributionId(long distributionId) {
+		_distributionId = distributionId;
 	}
 
 	public String getUrl() {
@@ -131,6 +140,7 @@ public class DistributionSoap implements Serializable {
 	}
 
 	private String _uuid;
+	private long _distributionId;
 	private String _url;
 	private long _groupId;
 	private String _tipo;

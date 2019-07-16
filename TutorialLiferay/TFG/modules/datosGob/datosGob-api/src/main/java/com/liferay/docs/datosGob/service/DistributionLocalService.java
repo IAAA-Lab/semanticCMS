@@ -18,7 +18,9 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.docs.datosGob.model.Distribution;
 
+import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -27,6 +29,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -68,14 +71,17 @@ public interface DistributionLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public Distribution addDistribution(Distribution distribution);
 
+	public Distribution addDistribution(String datasetId, String url,
+		String tipo, ServiceContext serviceContext) throws PortalException;
+
 	/**
 	* Creates a new distribution with the primary key. Does not add the distribution to the database.
 	*
-	* @param url the primary key for the new distribution
+	* @param distributionId the primary key for the new distribution
 	* @return the new distribution
 	*/
 	@Transactional(enabled = false)
-	public Distribution createDistribution(String url);
+	public Distribution createDistribution(long distributionId);
 
 	/**
 	* Deletes the distribution from the database. Also notifies the appropriate model listeners.
@@ -89,12 +95,12 @@ public interface DistributionLocalService extends BaseLocalService,
 	/**
 	* Deletes the distribution with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param url the primary key of the distribution
+	* @param distributionId the primary key of the distribution
 	* @return the distribution that was removed
 	* @throws PortalException if a distribution with the primary key could not be found
 	*/
 	@Indexable(type = IndexableType.DELETE)
-	public Distribution deleteDistribution(String url)
+	public Distribution deleteDistribution(long distributionId)
 		throws PortalException;
 
 	/**
@@ -170,7 +176,7 @@ public interface DistributionLocalService extends BaseLocalService,
 		Projection projection);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Distribution fetchDistribution(String url);
+	public Distribution fetchDistribution(long distributionId);
 
 	/**
 	* Returns the distribution matching the UUID and group.
@@ -183,15 +189,19 @@ public interface DistributionLocalService extends BaseLocalService,
 	public Distribution fetchDistributionByUuidAndGroupId(String uuid,
 		long groupId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ActionableDynamicQuery getActionableDynamicQuery();
+
 	/**
 	* Returns the distribution with the primary key.
 	*
-	* @param url the primary key of the distribution
+	* @param distributionId the primary key of the distribution
 	* @return the distribution
 	* @throws PortalException if a distribution with the primary key could not be found
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Distribution getDistribution(String url) throws PortalException;
+	public Distribution getDistribution(long distributionId)
+		throws PortalException;
 
 	/**
 	* Returns the distribution matching the UUID and group.
@@ -240,6 +250,9 @@ public interface DistributionLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getDistributionsCount(long groupId, String coleccionId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
 
 	/**
 	* Returns the OSGi service identifier.

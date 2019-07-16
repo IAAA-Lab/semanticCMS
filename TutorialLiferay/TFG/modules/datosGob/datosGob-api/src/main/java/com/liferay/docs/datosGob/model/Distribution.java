@@ -37,15 +37,15 @@ public interface Distribution extends DistributionModel, PersistedModel {
 	 *
 	 * Never modify this interface directly. Add methods to {@link com.liferay.docs.datosGob.model.impl.DistributionImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Distribution, String> URL_ACCESSOR = new Accessor<Distribution, String>() {
+	public static final Accessor<Distribution, Long> DISTRIBUTION_ID_ACCESSOR = new Accessor<Distribution, Long>() {
 			@Override
-			public String get(Distribution distribution) {
-				return distribution.getUrl();
+			public Long get(Distribution distribution) {
+				return distribution.getDistributionId();
 			}
 
 			@Override
-			public Class<String> getAttributeClass() {
-				return String.class;
+			public Class<Long> getAttributeClass() {
+				return Long.class;
 			}
 
 			@Override

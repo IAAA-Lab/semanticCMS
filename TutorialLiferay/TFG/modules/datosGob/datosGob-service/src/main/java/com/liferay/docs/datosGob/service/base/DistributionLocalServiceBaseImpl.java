@@ -29,8 +29,11 @@ import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DefaultActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -92,27 +95,27 @@ public abstract class DistributionLocalServiceBaseImpl
 	/**
 	 * Creates a new distribution with the primary key. Does not add the distribution to the database.
 	 *
-	 * @param url the primary key for the new distribution
+	 * @param distributionId the primary key for the new distribution
 	 * @return the new distribution
 	 */
 	@Override
 	@Transactional(enabled = false)
-	public Distribution createDistribution(String url) {
-		return distributionPersistence.create(url);
+	public Distribution createDistribution(long distributionId) {
+		return distributionPersistence.create(distributionId);
 	}
 
 	/**
 	 * Deletes the distribution with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param url the primary key of the distribution
+	 * @param distributionId the primary key of the distribution
 	 * @return the distribution that was removed
 	 * @throws PortalException if a distribution with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	@Override
-	public Distribution deleteDistribution(String url)
+	public Distribution deleteDistribution(long distributionId)
 		throws PortalException {
-		return distributionPersistence.remove(url);
+		return distributionPersistence.remove(distributionId);
 	}
 
 	/**
@@ -211,8 +214,8 @@ public abstract class DistributionLocalServiceBaseImpl
 	}
 
 	@Override
-	public Distribution fetchDistribution(String url) {
-		return distributionPersistence.fetchByPrimaryKey(url);
+	public Distribution fetchDistribution(long distributionId) {
+		return distributionPersistence.fetchByPrimaryKey(distributionId);
 	}
 
 	/**
@@ -231,13 +234,50 @@ public abstract class DistributionLocalServiceBaseImpl
 	/**
 	 * Returns the distribution with the primary key.
 	 *
-	 * @param url the primary key of the distribution
+	 * @param distributionId the primary key of the distribution
 	 * @return the distribution
 	 * @throws PortalException if a distribution with the primary key could not be found
 	 */
 	@Override
-	public Distribution getDistribution(String url) throws PortalException {
-		return distributionPersistence.findByPrimaryKey(url);
+	public Distribution getDistribution(long distributionId)
+		throws PortalException {
+		return distributionPersistence.findByPrimaryKey(distributionId);
+	}
+
+	@Override
+	public ActionableDynamicQuery getActionableDynamicQuery() {
+		ActionableDynamicQuery actionableDynamicQuery = new DefaultActionableDynamicQuery();
+
+		actionableDynamicQuery.setBaseLocalService(distributionLocalService);
+		actionableDynamicQuery.setClassLoader(getClassLoader());
+		actionableDynamicQuery.setModelClass(Distribution.class);
+
+		actionableDynamicQuery.setPrimaryKeyPropertyName("distributionId");
+
+		return actionableDynamicQuery;
+	}
+
+	@Override
+	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
+		IndexableActionableDynamicQuery indexableActionableDynamicQuery = new IndexableActionableDynamicQuery();
+
+		indexableActionableDynamicQuery.setBaseLocalService(distributionLocalService);
+		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
+		indexableActionableDynamicQuery.setModelClass(Distribution.class);
+
+		indexableActionableDynamicQuery.setPrimaryKeyPropertyName(
+			"distributionId");
+
+		return indexableActionableDynamicQuery;
+	}
+
+	protected void initActionableDynamicQuery(
+		ActionableDynamicQuery actionableDynamicQuery) {
+		actionableDynamicQuery.setBaseLocalService(distributionLocalService);
+		actionableDynamicQuery.setClassLoader(getClassLoader());
+		actionableDynamicQuery.setModelClass(Distribution.class);
+
+		actionableDynamicQuery.setPrimaryKeyPropertyName("distributionId");
 	}
 
 	/**

@@ -33,12 +33,11 @@ public class TituloLocalServiceWrapper implements TituloLocalService,
 	}
 
 	@Override
-	public com.liferay.docs.datosGob.model.Titulo addDescripcion(
-		String datasetId, String titu,
+	public com.liferay.docs.datosGob.model.Titulo addTitulo(String datasetId,
+		String titu,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _tituloLocalService.addDescripcion(datasetId, titu,
-			serviceContext);
+		return _tituloLocalService.addTitulo(datasetId, titu, serviceContext);
 	}
 
 	/**

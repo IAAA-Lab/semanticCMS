@@ -19,7 +19,9 @@ import java.util.List;
 import com.liferay.docs.datosGob.model.Distribution;
 import com.liferay.docs.datosGob.model.Titulo;
 import com.liferay.docs.datosGob.service.base.DistributionLocalServiceBaseImpl;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 /**
@@ -45,6 +47,27 @@ public class DistributionLocalServiceImpl
 	 */
 	
 	
+public Distribution addDistribution(String datasetId, String url, String tipo, ServiceContext serviceContext) throws PortalException {
+		
+		long entryId = counterLocalService.increment();
+		
+		long groupId = serviceContext.getScopeGroupId();
+
+		
+
+		Distribution titulo = distributionPersistence.create(entryId);
+
+		titulo.setGroupId(groupId);
+		titulo.setUrl(url);
+		titulo.setDatasetId(datasetId);
+		titulo.setTipo(tipo);
+		
+
+		distributionPersistence.update(titulo);
+
+		return titulo;
+
+	}
 	
 	public List<Distribution> getDistributions(long groupId, String datasetId) {
 	    return distributionPersistence.findByDi_D(groupId, datasetId);

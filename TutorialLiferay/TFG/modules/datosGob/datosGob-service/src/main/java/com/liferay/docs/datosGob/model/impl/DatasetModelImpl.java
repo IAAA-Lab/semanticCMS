@@ -77,7 +77,7 @@ public class DatasetModelImpl extends BaseModelImpl<Dataset>
 		TABLE_COLUMNS_MAP.put("homepage", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table DB_Dataset (uuid_ VARCHAR(75) null,datasetId VARCHAR(75) not null primary key,groupId LONG,homepage VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table DB_Dataset (uuid_ VARCHAR(75) null,datasetId VARCHAR(500) not null primary key,groupId LONG,homepage VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table DB_Dataset";
 	public static final String ORDER_BY_JPQL = " ORDER BY dataset.datasetId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY DB_Dataset.datasetId ASC";

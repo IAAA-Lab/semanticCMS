@@ -9,6 +9,8 @@ dependencies {
 	
 	compileOnly project(":modules:datosGob:datosGob-api")
 	compileOnly project(":modules:datosGob:datosGob-service")
+	
+	compileOnly group: 'org.apache.jena', name: 'jena-osgi', version: '3.10.0'
 
 	compileOnly group: "com.liferay", name: "com.liferay.application.list.api", version: "2.0.0"
 }

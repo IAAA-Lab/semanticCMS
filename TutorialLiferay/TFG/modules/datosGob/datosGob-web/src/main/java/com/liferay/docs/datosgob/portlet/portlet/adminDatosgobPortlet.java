@@ -1,22 +1,39 @@
 package com.liferay.docs.datosgob.portlet.portlet;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
+import java.util.Properties;
+import java.util.ResourceBundle;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
 
+import org.apache.jena.graph.Node;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.NodeIterator;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFList;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.ResIterator;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.util.iterator.ExtendedIterator;
+import org.apache.jena.vocabulary.DCAT;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.docs.datosGob.model.Coleccion;
 import com.liferay.docs.datosGob.model.Dataset;
 import com.liferay.docs.datosGob.model.Descripcion;
@@ -28,19 +45,13 @@ import com.liferay.docs.datosGob.service.DescripcionLocalService;
 import com.liferay.docs.datosGob.service.DistributionLocalService;
 import com.liferay.docs.datosGob.service.TituloLocalService;
 import com.liferay.docs.datosgob.portlet.constants.DatosGobPortletKeys;
-import com.liferay.document.library.kernel.model.DLFolderConstants;
-import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.io.ByteArrayFileInputStream;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.repository.model.FileEntry;
-import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.FileUtil;
-import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StreamUtil;
 
@@ -64,7 +75,6 @@ public class adminDatosgobPortlet extends MVCPortlet {
 			System.out.println("intento meter coleccion");
 
 			_coleccionLocalService.deleteColeccion("http://datos.gob.es");
-
 			Coleccion c = _coleccionLocalService.createColeccion("http://datos.gob.es");
 			c.setTitulo("Datos gobierno");
 			c.setGroupId(groupId);
@@ -137,17 +147,9 @@ public class adminDatosgobPortlet extends MVCPortlet {
 			ds4.setDatasetId("3");
 			ds4.setDescripcion("Descripcion del dato 3.");
 
-			Distribution di1 = _distributionLocalService.createDistribution(
-					"http://www.agenciatributaria.es/static_files/AEAT/Estudios/Estadisticas/Informes_Estadisticos/Informe_de_Ventas__Empleo_y_Salarios_en_las_Grandes_Empresas/2013/Series.xls");
-			di1.setTipo("XLS");
-			di1.setGroupId(groupId);
-			di1.setDatasetId("8435c8c3-61d3-4e03-9f0c-bdf085f87494");
-
-			Distribution di2 = _distributionLocalService.createDistribution(
-					"http://www.agenciatributaria.es/AEAT.internet/datosabiertos/catalogo/hacienda/Ventas_Empleo_Salarios_Grandes_Empresas/Calendario_difusion.shtml");
-			di2.setTipo("HTML");
-			di2.setGroupId(groupId);
-			di2.setDatasetId("8435c8c3-61d3-4e03-9f0c-bdf085f87494");
+			_distributionLocalService.addDistribution("8435c8c3-61d3-4e03-9f0c-bdf085f87494",
+					"http://www.agenciatributaria.es/static_files/AEAT/Estudios/Estadisticas/Informes_Estadisticos/Informe_de_Ventas__Empleo_y_Salarios_en_las_Grandes_Empresas/2013/Series.xls",
+					"XLS", serviceContext);
 
 			_datasetLocalService.addDataset(d1);
 			_datasetLocalService.addDataset(d2);
@@ -167,9 +169,6 @@ public class adminDatosgobPortlet extends MVCPortlet {
 			_descripcionLocalService.addDescripcion(ds3);
 			_descripcionLocalService.addDescripcion(ds4);
 
-			_distributionLocalService.addDistribution(di1);
-			_distributionLocalService.addDistribution(di2);
-
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -184,7 +183,8 @@ public class adminDatosgobPortlet extends MVCPortlet {
 
 		long groupId = serviceContext.getScopeGroupId();
 		List<Dataset> list = _datasetLocalService.getDatasets(groupId, "http://datos.gob.es");
-
+		System.out.println("hay que borar: " + list.size());
+		int i = 0;
 		for (Dataset data : list) {
 			String datasetId = data.getDatasetId();
 
@@ -204,6 +204,9 @@ public class adminDatosgobPortlet extends MVCPortlet {
 			}
 
 			_datasetLocalService.deleteDataset(datasetId);
+			i++;
+
+			System.out.println(i + " de " + list.size());
 		}
 
 	}
@@ -212,12 +215,13 @@ public class adminDatosgobPortlet extends MVCPortlet {
 		System.out.println(datos.size());
 
 		try {
+
 			_coleccionLocalService.deleteColeccion("http://datos.gob.es");
 			Coleccion c = _coleccionLocalService.createColeccion("http://datos.gob.es");
 			c.setTitulo("Datos gobierno");
 			c.setGroupId(groupId);
 			_coleccionLocalService.addColeccion(c);
-
+			int total = 0;
 			for (String item : datos) {
 				List<String> linea = new ArrayList<String>(Arrays.asList(item.split(";")));
 				String datasetId = linea.get(0).substring(29);
@@ -232,13 +236,12 @@ public class adminDatosgobPortlet extends MVCPortlet {
 
 				String titulosS = linea.get(2);
 				titulosS = titulosS.replaceAll("\\[", "//[");
-				// System.out.println(titulosS);
 
 				List<String> titulos = new ArrayList<String>(Arrays.asList(titulosS.split("//")));
 				int i = 0;
 				for (String titulo : titulos) {
 					if (i != 0) {
-						_tituloLocalService.addDescripcion(datasetId, titulo, ServiceContext);
+						_tituloLocalService.addTitulo(datasetId, titulo, ServiceContext);
 
 					}
 					i++;
@@ -247,7 +250,6 @@ public class adminDatosgobPortlet extends MVCPortlet {
 				// AÑADO DESCRIPCIONES
 				String descripcionesS = linea.get(3);
 				descripcionesS = descripcionesS.replaceAll("\\[", "//[");
-				// System.out.println(titulosS);
 
 				List<String> descripciones = new ArrayList<String>(Arrays.asList(descripcionesS.split("//")));
 				i = 0;
@@ -262,35 +264,27 @@ public class adminDatosgobPortlet extends MVCPortlet {
 				// AÑADO DISTRIBUCIONES
 				String distribucionesS = linea.get(17);
 				List<String> distribuciones = new ArrayList<String>(Arrays.asList(distribucionesS.split("//\\[")));
-				i = 0;
+
 				for (String distri : distribuciones) {
-					System.out.println(distri);
 
 					String[] splitString = (distri.split("\\["));
-					String url="";
-					String tipo="";
-					for(int u=0;u<splitString.length;u++) {
-						System.out.println(splitString[u]);
-						if(splitString[u].contains("ACCESS_URL]")) {
-							url=splitString[u].substring(11);
-						}
-						else if(splitString[u].contains("MEDIA_TYPE]")) {
-							tipo=splitString[u].substring(11);
-						}
-						
-					}
-					
-					Distribution di2 = _distributionLocalService.createDistribution(url);
-					di2.setTipo(tipo);
-					di2.setGroupId(groupId);
-					di2.setDatasetId(datasetId);
-					
-					System.out.println("--------");
-					
-					_distributionLocalService.addDistribution(di2);
+					String url = "";
+					String tipo = "";
+					for (int u = 0; u < splitString.length; u++) {
 
-					i++;
+						if (splitString[u].contains("ACCESS_URL]")) {
+							url = splitString[u].substring(11);
+						} else if (splitString[u].contains("MEDIA_TYPE]")) {
+							tipo = splitString[u].substring(11);
+						}
+
+					}
+
+					_distributionLocalService.addDistribution(datasetId, url, tipo, ServiceContext);
+
 				}
+				total++;
+				System.out.println("Llevo metidos: " + total);
 
 			}
 		} catch (Exception e) {
@@ -341,6 +335,106 @@ public class adminDatosgobPortlet extends MVCPortlet {
 		finally {
 			StreamUtil.cleanUp(inputStream);
 		}
+	}
+	
+	
+
+	public void uploadFileAction2Model(ActionRequest actionRequest, ActionResponse actionResponse) {
+
+		String inputFile = "/home/jorge/Descargas/datosgobes.rdf";
+		Model model = ModelFactory.createDefaultModel();
+		try {
+			InputStream in = new FileInputStream(inputFile);
+			model.read(in, "RDFXML");
+			System.out.println("Modelo creado");	
+			
+			
+			ServiceContext serviceContext = ServiceContextFactory.getInstance(Coleccion.class.getName(),
+					actionRequest);
+			long groupId = serviceContext.getScopeGroupId();
+			
+			_coleccionLocalService.deleteColeccion("http://datos.gob.es");
+			Coleccion c = _coleccionLocalService.createColeccion("http://datos.gob.es");
+			c.setTitulo("Datos gobierno");
+			c.setGroupId(groupId);
+			_coleccionLocalService.addColeccion(c);
+			
+			
+			NodeIterator eitr = model.listObjectsOfProperty(DCAT.dataset);
+			int o=0;
+			int total=eitr.toList().size();
+			System.out.println("Total: "+total);
+			eitr = model.listObjectsOfProperty(DCAT.dataset);
+			while (eitr.hasNext()) {
+				RDFNode i=eitr.next();
+				//DATASET
+				Dataset d1 = _datasetLocalService.createDataset(i.toString());
+				d1.setHomepage(c.getHomepage());
+				d1.setGroupId(groupId);
+				_datasetLocalService.addDataset(d1);
+				
+			
+				
+				//TITULOS
+				Property titulo=model.getProperty("http://purl.org/dc/terms/title");
+				StmtIterator ite=i.asResource().listProperties(titulo);
+				while (ite.hasNext()) {
+					_tituloLocalService.addTitulo(i.toString(), ite.next().getObject().toString(), serviceContext);
+				}
+
+				
+				//DESCRIPCIONES
+				Property descripcion=model.getProperty("http://purl.org/dc/terms/description");
+				ite=i.asResource().listProperties(descripcion);
+				while (ite.hasNext()) {
+					_descripcionLocalService.addDescripcion(i.toString(), ite.next().getObject().toString(), serviceContext);
+				}
+				
+				
+				
+				
+				//DISTRIBUCIONES
+				Property distribucion=DCAT.distribution;
+				Property format=model.getProperty("http://purl.org/dc/terms/format");
+				Property aURL=DCAT.accessURL;
+				ite=i.asResource().listProperties(distribucion);
+				while (ite.hasNext()) {
+					String ob=ite.next().getObject().toString();
+					
+					Resource p=model.getResource(ob);
+					String formato="";
+					StmtIterator formatos= p.listProperties(format);
+					while(formatos.hasNext()) {
+						formato=formatos.next().getResource().getProperty(RDFS.label).getObject().toString();
+					}
+
+					StmtIterator accesos= p.listProperties(aURL);
+					String[] acceso=new String[1];
+					while(accesos.hasNext()) {
+						acceso=accesos.next().getObject().toString().split("\\^\\^");
+					}
+					
+					
+					_distributionLocalService.addDistribution(i.toString(), acceso[0], formato, serviceContext);
+					
+					
+				}
+				
+				
+				
+				System.out.println(o+"----------"+total);
+				o++;
+			}
+			
+			model.close();
+			
+			
+			System.out.println("FIN");
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
 	}
 
 	@Reference(unbind = "-")

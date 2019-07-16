@@ -28,7 +28,9 @@ import com.liferay.portal.kernel.util.ParamUtil;
 		"javax.portlet.init-param.template-path=/", "javax.portlet.init-param.view-template=/datasetPortlet/view.jsp",
 		"javax.portlet.name=" + DatosGobPortletKeys.Dataset, "javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user",
-		"javax.portlet.supports.mime-type=text/html" }, service = Portlet.class)
+		"javax.portlet.supports.mime-type=text/html",
+		"mvc.command.name=/",
+        "mvc.command.name=/datosgob/view"}, service = Portlet.class)
 public class DatasetPortlet extends MVCPortlet {
 
 	@Override

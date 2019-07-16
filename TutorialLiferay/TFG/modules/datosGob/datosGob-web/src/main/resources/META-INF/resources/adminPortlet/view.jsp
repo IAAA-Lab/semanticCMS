@@ -26,7 +26,7 @@
 
 
 <p>
-Añadir ficher con los datos CSV
+Añadir fichero con los datos CSV
 </p>
 
 <portlet:actionURL var="uploadFile" name="uploadFileAction">
@@ -35,5 +35,21 @@ Añadir ficher con los datos CSV
 <aui:form action="<%=uploadFile%>" method="post"
 	enctype="multipart/form-data">
 	<aui:input type="file" name="sampleFile" />
-	<button type="submit" class="defaultButton" style="margin-left: 10px;">Upload</button>
+	<button type="submit" class="defaultButton" style="margin-left: 10px;">CSV</button>
 </aui:form>
+
+
+
+<br>
+<p>
+Añadir fichero con los datos RDF
+</p>
+
+<portlet:actionURL var="uploadFile2" name="uploadFileAction2Model">
+
+</portlet:actionURL>
+<aui:button-row cssClass="guestbook-buttons">
+
+	<aui:button onClick="<%=uploadFile2%>" value="RDF"></aui:button>
+
+</aui:button-row>

@@ -233,17 +233,18 @@ public class DistributionUtil {
 	/**
 	* Returns the distributions before and after the current distribution in the ordered set where uuid = &#63;.
 	*
-	* @param url the primary key of the current distribution
+	* @param distributionId the primary key of the current distribution
 	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next distribution
 	* @throws NoSuchDistributionException if a distribution with the primary key could not be found
 	*/
-	public static Distribution[] findByUuid_PrevAndNext(String url,
+	public static Distribution[] findByUuid_PrevAndNext(long distributionId,
 		String uuid, OrderByComparator<Distribution> orderByComparator)
 		throws com.liferay.docs.datosGob.exception.NoSuchDistributionException {
 		return getPersistence()
-				   .findByUuid_PrevAndNext(url, uuid, orderByComparator);
+				   .findByUuid_PrevAndNext(distributionId, uuid,
+			orderByComparator);
 	}
 
 	/**
@@ -460,19 +461,19 @@ public class DistributionUtil {
 	/**
 	* Returns the distributions before and after the current distribution in the ordered set where groupId = &#63; and datasetId = &#63;.
 	*
-	* @param url the primary key of the current distribution
+	* @param distributionId the primary key of the current distribution
 	* @param groupId the group ID
 	* @param datasetId the dataset ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next distribution
 	* @throws NoSuchDistributionException if a distribution with the primary key could not be found
 	*/
-	public static Distribution[] findByDi_D_PrevAndNext(String url,
+	public static Distribution[] findByDi_D_PrevAndNext(long distributionId,
 		long groupId, String datasetId,
 		OrderByComparator<Distribution> orderByComparator)
 		throws com.liferay.docs.datosGob.exception.NoSuchDistributionException {
 		return getPersistence()
-				   .findByDi_D_PrevAndNext(url, groupId, datasetId,
+				   .findByDi_D_PrevAndNext(distributionId, groupId, datasetId,
 			orderByComparator);
 	}
 
@@ -518,23 +519,23 @@ public class DistributionUtil {
 	/**
 	* Creates a new distribution with the primary key. Does not add the distribution to the database.
 	*
-	* @param url the primary key for the new distribution
+	* @param distributionId the primary key for the new distribution
 	* @return the new distribution
 	*/
-	public static Distribution create(String url) {
-		return getPersistence().create(url);
+	public static Distribution create(long distributionId) {
+		return getPersistence().create(distributionId);
 	}
 
 	/**
 	* Removes the distribution with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param url the primary key of the distribution
+	* @param distributionId the primary key of the distribution
 	* @return the distribution that was removed
 	* @throws NoSuchDistributionException if a distribution with the primary key could not be found
 	*/
-	public static Distribution remove(String url)
+	public static Distribution remove(long distributionId)
 		throws com.liferay.docs.datosGob.exception.NoSuchDistributionException {
-		return getPersistence().remove(url);
+		return getPersistence().remove(distributionId);
 	}
 
 	public static Distribution updateImpl(Distribution distribution) {
@@ -544,23 +545,23 @@ public class DistributionUtil {
 	/**
 	* Returns the distribution with the primary key or throws a {@link NoSuchDistributionException} if it could not be found.
 	*
-	* @param url the primary key of the distribution
+	* @param distributionId the primary key of the distribution
 	* @return the distribution
 	* @throws NoSuchDistributionException if a distribution with the primary key could not be found
 	*/
-	public static Distribution findByPrimaryKey(String url)
+	public static Distribution findByPrimaryKey(long distributionId)
 		throws com.liferay.docs.datosGob.exception.NoSuchDistributionException {
-		return getPersistence().findByPrimaryKey(url);
+		return getPersistence().findByPrimaryKey(distributionId);
 	}
 
 	/**
 	* Returns the distribution with the primary key or returns <code>null</code> if it could not be found.
 	*
-	* @param url the primary key of the distribution
+	* @param distributionId the primary key of the distribution
 	* @return the distribution, or <code>null</code> if a distribution with the primary key could not be found
 	*/
-	public static Distribution fetchByPrimaryKey(String url) {
-		return getPersistence().fetchByPrimaryKey(url);
+	public static Distribution fetchByPrimaryKey(long distributionId) {
+		return getPersistence().fetchByPrimaryKey(distributionId);
 	}
 
 	public static java.util.Map<java.io.Serializable, Distribution> fetchByPrimaryKeys(
